@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="root"></div>
+
+<!-- <script src="babel.min.js"></script> -->
+<script src="react.js"></script>
+<script src="ReactDOM.js"></script>
+
+<script>
+
+  console.clear();
+  const root = document.querySelector('#root');
+  const el = React.createElement('p', null, 'hello world hello world');
+
+  // const el = <p>Click me</p>
+
+  const x = ReactDOM.render(el, root);
+
+  console.log(`FINISH`);
+
+</script>
+
+</body>
+</html>
+
