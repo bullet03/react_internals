@@ -5,12 +5,15 @@ React internals
 Содержание
 
 Определения
-  Реконсилиация
-  FiberRoot
-  RootFiber
+  Реконсилиация 
+  FiberRoot - механизм переключения между current & workInProgress tree
+  RootFiber - аналог document, также известен как HostRoot, корневая нода fiber дерева
+  fiber - нить, виртуальый DOM, состоящий из fiberNode
+  fiberNode - элемент вирутального DOM
   StateNode
-  children
-  childs
+  children - в контексте реального DOM дерева, вложенные теги первого уровня (прямые потомки)
+  child - в контексте реального DOM дерева, все узлы первого уровня, включая комменты, текстовые узлы и т.д.
+  tag - тип fiberNode
 
 Мысли
 
