@@ -59,3 +59,5 @@ Fiber root создается двумя частями. RootFiber(HostRoot, tag
 
 executionContext &= ~BatchedContext //  из текущего executionContext исключается BatchedContext
 executionContext |= LegacyUnbatchedContext // добавляет LegacyUnbatchedContext в executionContext
+
+Мы отслеживаем состояние момента выполнения программы через битовую маску.
