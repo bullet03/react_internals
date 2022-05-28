@@ -54,3 +54,8 @@ Fiber root создается двумя частями. RootFiber(HostRoot, tag
 - F11 (Step into), углубиться во вложенную функцию
 - Shift + F11 (Step out), выйти из вложенной функции
 - F10 (Step over), идти по коду, не углубляясь в другие функции
+
+Реат можнт работать в разных режимах, они имеются контекстом. Для разных режимов заведено 6 или 7 позиций бинарного числа. 21152 - строка, где объявляются контексты. Отсутствие контекста - ноль (NoContext). 
+
+executionContext &= ~BatchedContext //  из текущего executionContext исключается BatchedContext
+executionContext |= LegacyUnbatchedContext // добавляет LegacyUnbatchedContext в executionContext
