@@ -116,6 +116,8 @@ ReactDOM.render(<div>4565</div>, container) -> Babel
 ReactDOM.render(React.createElement('div', null, 4565), container); -> createElement
 ReactDOM.render({ $$typeof: ..., type: 'div', ...}}, container); -> ReactDOM
 
+Реконсилиация - центральный процесс реакта, превращение Реакт дерева в DOM. Для этого на основании Реакт дерева построить Fiber дерево, где в процессе будут указаны все необходимые данные для отрисовки.
+
 Fiber согласно нашим мыслям представляет собой множество понятий:
 - это отдельный элемент построенный на основе React элемента нужный для того, чтобы на его основе построить DOM узел
 - это дерево из отдельных fiber элементов
@@ -123,7 +125,50 @@ Fiber согласно нашим мыслям представляет собо
 - общее название архитектуры, на которой сейчас работает Реакт
 Чтобы понимать о чем идет речь, обращай внимание на контекст.
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!! To-Do/// описать что такое теги, WIP & current
+Tag (свойство Fiber) - это нумерованное обозначение типа fiberNode. В зависимости от тега будет зависесть дальнейшая обработка fiberNode. 
+
+Current Tree - ссылка на fiber дерево в предыдущем отрисованном состоянии. Оно необходимо для сравнения, чтобы понять, что именно изменилось в DOM.
+
+Current - fiberNode, который идет в паре с WIP и при сравнение его с WIP, помогает выислить разницу в отображении.
+
+Current & WIP связаны между собой ссылками alternate.
+
+WorkInProgress Tree - ссылка на fiber дерево, с которым производится работа по реконсилиации в текущий момент времени.
+
+WorkInProgress (WIP) - текущий fiberNode с которым производится текущая работа по настройке всех его полей соответствующими значениями.
+
+Поля fiberNode - содержат всю необходимую информация для дальшейшей отрисовки DOM на экране. Пример полея fiberNode (HostRoot) ниже:
+{
+  this.tag = tag;                     // 3
+  this.key = key;                     // null
+  this.elementType = null;
+  this.type = null;
+  this.stateNode = null;              // Fiber
+  this.return = null;
+  this.child = null;
+  this.sibling = null;
+  this.index = 0;
+  this.ref = null;
+  this.pendingProps = pendingProps;   // null
+  this.memoizedProps = null;  
+  this.updateQueue = null;
+  this.memoizedState = null;
+  this.dependencies = null;
+  this.mode = mode; // Effects        // 0
+  this.effectTag = NoEffect;          // 0
+  this.nextEffect = null;
+  this.firstEffect = null;
+  this.lastEffect = null;
+  this.expirationTime = NoWork;       // 0
+  this.childExpirationTime = NoWork;  // 
+  this.alternate = null;
+  {
+  this.actualDuration = 0;
+  this.actualStartTime = -1;
+  this.selfBaseDuration = 0;
+  this.treeBaseDuration = 0;
+  }
+}
 
 FiberRoot - это механизм переключения между current & workInProgress tree. Записан как tag 0.
 
