@@ -128,6 +128,26 @@ ________________________________________________________________________________
 Затем updateContainer вызывает метод scheduleWork на HostRoot, в итоге вызывается функция performSyncWorkOnRoot на родителе HostRoot (т.е. это FiberRoot, tag 0), которая запускает реконсилиацию.
 
 ___________________________________________________________________________________________________
+### Рис.4 reconciliation
+Описание рис.4 reconciliation
+
+Реконсилиацию можно условно разделить на 2 этапа: beginWork & completeWork. В beginWork мы полностью формируем Fiber дерево проходя от HostRoot в самый низ. В completeWork мы совершаем обратный проход от низа к руту. На обратном пути частью работы над Fiber является создание из них соответствуюших им DOM узлов.
+
+// pushHostRootContext
+// pushTopLevelContextObject
+// pushHostContainer
+// pushHostContext
+
+// popHostContext
+// popHostContainer
+// popTopLevelContextObject
+
+// contextFiber StackCursor
+// rootInstance StackCursor
+// didPerformWork StackCursor
+// context StackCursor
+// context StackCursor$1
+___________________________________________________________________________________________________
 
 ## Вне списка (невошедшее)
 есть 4 дерева
