@@ -8,7 +8,7 @@
 
 <div id="root"></div>
 
-<!-- <script src="babel.min.js"></script> -->
+<!--<script src="babel.min.js"></script>-->
 <script src="react.js"></script>
 <script src="ReactDOM.js"></script>
 
@@ -16,11 +16,16 @@
 
   console.clear();
   const root = document.querySelector('#root');
-  const el = React.createElement('p', null, 'hello world hello world');
 
-  // const el = <p>Click me</p>
+  function App() {
+    const [myName, setMyName] = React.useState('Dima');
+    const el = React.createElement('p', null, myName);
+    return el;
+  }
 
-  const x = ReactDOM.render(el, root);
+  const noBabelApp = React.createElement(App, null, React.createElement('span', null, null));
+
+  const x = ReactDOM.render(noBabelApp, root);
 
   console.log(`FINISH`);
 
@@ -28,4 +33,3 @@
 
 </body>
 </html>
-
