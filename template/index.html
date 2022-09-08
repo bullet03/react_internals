@@ -19,6 +19,20 @@
 
   function App() {
     const [myName, setMyName] = React.useState('Dima');
+    const [age, setMyAge] = React.useState(23);
+
+    const memCb = React.useCallback(() => {
+      console.log('useCallback console');
+    }, [myName, age])
+
+    React.useEffect(()=>{
+      console.log('UseEffect console');
+    },[myName, age]);
+
+    React.useLayoutEffect(()=>{
+      console.log('useLayoutEffect console');
+    },[myName, age]);
+
     const el = React.createElement('p', null, myName);
     return el;
   }
