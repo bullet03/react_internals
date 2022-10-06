@@ -33,7 +33,11 @@
       console.log('useLayoutEffect console');
     },[myName, age]);
 
-    const el = React.createElement('p', null, myName);
+    function handleClick(){
+      setMyName('Bulat');
+    }
+
+    const el = React.createElement('p', {onClick: handleClick }, myName);
     return el;
   }
 
