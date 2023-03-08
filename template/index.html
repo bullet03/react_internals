@@ -18,7 +18,15 @@
   const root = document.querySelector('#root');
 
   function App() {
+
     const [myName, setMyName] = React.useState('Dima');
+
+    function handleClick(){
+      setMyName('Bulat');
+    }
+
+/*
+
     const [age, setMyAge] = React.useState(23);
 
     const memCb = React.useCallback(() => {
@@ -33,9 +41,8 @@
       console.log('useLayoutEffect console');
     },[myName, age]);
 
-    function handleClick(){
-      setMyName('Bulat');
-    }
+*/
+
 
     const el = React.createElement('p', {onClick: handleClick }, myName);
     return el;
