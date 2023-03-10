@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>18</title>
 </head>
 <body>
 
@@ -15,8 +15,24 @@
 <script>
   console.clear();
 
+  const root = ReactDOM.createRoot(document.getElementById('root'));
 
+  function App() {
 
+    const [myName, setMyName] = React.useState('Dima');
+    const [myAge, setMyAge] = React.useState(30);
+
+    function handleClick(){
+      setMyName('Bulat');
+      setMyAge(25);
+    }
+
+    const el = React.createElement('p', {onClick: handleClick }, myName, myAge);
+    return el;
+  }
+
+  const noBabelApp = React.createElement(App, null);
+  const x = root.render(noBabelApp);
 
   console.log(`FINISH`);
 </script>
