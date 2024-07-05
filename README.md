@@ -407,11 +407,27 @@ Portal:
 
 SyntheticEvents System:
 - react ловит события на div#root, а не на document как было в ранних версиях
-- react нужна своя система событий, чтобы прогонять события по fiber дереву (выгодно потому что универсально независим отт host среды, события распространяемое в DOM tree может отличаться от пути распространения события в fiber tree => Portal)
+- react нужна своя система событий, чтобы прогонять события по fiber дереву (выгодно потому что универсально независима от host среды, события распространяемое в DOM tree может отличаться от пути распространения события в fiber tree => Portal)
 - создание listener основывается на заранее подготовленному списку событий (списков событий 2: delegate, nondelegate)
 - listener это реактовский слушатель нативных событий. На каждое имя события создаётся свой вариант react listeners (например, onClick, onClickCapture)
-- созданные react listeners крепятся к div#root через обычный addEventListener с уечтом следующих флагов: +/- passive, +/- bubbling. Bubbling (delegate events), capture (delegate + nondelegate events), флаг passive (отсекается ли e.peverntDefault)
+- созданные react listeners крепятся к div#root через обычный addEventListener с уечтом следующих флагов: +/- passive, +/- bubbling. Bubbling (delegate events), capture (delegate + nondelegate events), флаг passive (отсекается ли e.preventDefault)
 
+- dispatch vs emit. Dispatch - отправить адресату, более широкое понятие, аргумент - eventObject. Emit - сгенерировать/выпустить, уведомить что событие произошло, аргумент emit - string/eventName
+- plugin/ plug-in, подключить расширение, которое расширит основной функционал, не изменяя его структуры
+- задача реакта взять native event, сгруппировать его по какому-то принципу и через extract events создать react event, положить в dispatchQueue созданное синтетическое событие, связанные с ним listeners
+- processDispatchQueue прогонит все события, в зависимоссти от фазы capture/bubbling (сначала, либо с конца списка)
+- в react есть eventPluginSystem, которая классифицирует events, а значит и алгоритм их обработки по типу. SimpleEventPlugin обрабатывает базовые events, такие как click. Другие pluginEventSystem обрабатывают более сложные случаи, например, enterLeaveEventPlugin, selectEventPlugin, ...
 
+- реакт собирает все события в listeners, пробегаясь наверх. Например, могут быть несколько onClick и они все будут в lisneters onClick
+- создаются синтетические события, которые соединуются с listeners в единую структуру
+- собранные события обрабатываются в 2 вложенных цикла: внешний перебирает различные типы events (т.е. отельно обрабатываются onClick, onChange,...), внутренний перебирает listeners прикрепленных к кажому типу событий (т.е. на один event м.б. несколько прикрепленных listeners)
+- onClick, onChange,... являются props, их значения могут меняться с течением component lifecycle
+- обработчики событий сработают только для HostComponent (не для Function, Class, ...), на это стоит проверка
+
+- в 16 и 17 версии react все SyntheticEvents всплывали, даже scroll, что приводило к проблемам. С 17 версии этот баг поправили только для scroll. В будущем хотели поправить для всех nonDelegateEvents
+- processDispatchSingle прогонит все listeners на данном событии. Если встречается stopPropagation и react видит, что мы перехожим/всплываем к следующему fiber, то прекращаем всплытие
+- onChange react отличается от нативного тем, что callback отрабатывает сразу при введении изменений в input, в то время как у браузера callback работает лишь при blur
+- selectionChange у react повешено на document, не на div#root
+- ![events](/img/events.png)
 ___________________________________________________________________________________________________
 
