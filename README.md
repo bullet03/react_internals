@@ -448,7 +448,7 @@ SyntheticEvents System:
 - scheduleCallback это не часть react, это планировщик:
   1)создать таску на основе callbackNode
   2)поставить таску в eventLoop браузера используя асинхронный api среды
-  вернуть здесь и сейчас таску
+  3)вернуть здесь и сейчас таску
 - performWorkOnRoot входная точка во внутренний цикл react, которая его запускает. Стартует с root, должен раскрутить всё дерево до реального кадра (begin/complete + commit). В результате работы может вернуть либо null, либо функцию performWorkOnRoot с нового fiber, на котором закончилась обработка, т.к. performWorkOnRoot в async режиме прерываемый. Если вернулся null, значит задача по построению кадра выполнена полностью и задача снимается с самого scheduler из minHeap (taskQueue)
 - ...begin/complete => commit => DOMrender
 
