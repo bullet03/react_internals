@@ -393,7 +393,7 @@ Context:
 - связать/синхронизировать child/local и parent/external ref - называется merge рефов
 - существуют фокусы, когда значением ref является хук изменения состояния. Это несет в себе плюсы, но это неочевидно, поэтому использовать не будем. Пока не доросли =)
 - ![ref lifecycle](/img/ref_lifecycle.png)
-- ![Vladimir Klepov So you think you know everything about React refs](https://thoughtspile.github.io/2021/05/17/everything-about-react-refs/)
+- [Vladimir Klepov So you think you know everything about React refs](https://thoughtspile.github.io/2021/05/17/everything-about-react-refs/)
 
 Strict Mode:
 - вызывает дважды синхронно функциональный компонент, вокруг которого он обернут
@@ -401,7 +401,7 @@ Strict Mode:
 - хуки useEffect, useLayoutEffect при первоначальном маунте вызываются дважды синхронно, включая эффект очистки. При перерендерах хуки вызываются один раз
 - помогает найти ошибки, например, с забытой функцией отписки. Из-за особого двойного вызова компонента и его эффектов могут пойти ошибки
 - для предотвращения асинхронных запросов программист должен сам найти способ предупредить их повторную отправку/кеширование
-- ![It синяк Strict mode](https://www.youtube.com/watch?v=vFGCz1E_Zqs)
+- [It синяк Strict mode](https://www.youtube.com/watch?v=vFGCz1E_Zqs)
 
 Portal:
 - нужны для того, чтобы отобразить содержимое компонента в другом месте DOM. Важно, в системе JSX ничего не меняется и элемент, например, получит родительскийй контекст, т.к. она на месте 
