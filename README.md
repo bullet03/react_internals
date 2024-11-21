@@ -448,7 +448,7 @@ SyntheticEvents System:
 - если нет прикрепленных listeners, то dispathEvent отработает вхолостую
 
 
-Обобщенная схема работы react:
+Обобщенная схема работы React:
 - trigger phase запускает scheduleUpdateOnFiber => ensureRootIsScheduled => scheduleCallback => performWorkOnRoot(Sync/Async) => begin/complete => commit => DOMrender
 - scheduleUpdateOnFiber загрязняет fiber той работой (update), которую надо с ним сделать. Технически это выражается разными флагами, в том числе lane как метка важности обработки fiber. Например, setState => dispatchAction => scheduleUpdateOnFiber
 - ensureRootIsScheduled - убеждается, что на root повешена работа. Либо lane(загрязнение) есть и тогда запусти планировщик, либо noLanes и тогда return. Если текущая задача уже стоит в scheduler с таким же приоритетом, то также return. А если приоритет загрязнения выше уже стоящей задачи в scheduler, то в scheduler отменить старую задачу и поставить новую с новым приоритетом. callbackNode - это сохраненная таска scheduler'а которая привязана к текущему root (когда отменяем старую задачу, CallbackNode.callback = null)
