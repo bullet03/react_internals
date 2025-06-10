@@ -549,3 +549,22 @@ State Hooks
 - update - встречается в классовых/функциональных очередях обновлений (queue). Содержим в себе всю необходимую информацию для будуших обновлений.
 
 - круговые списки используются в updateQueue классовых компонентов и в queue функциональных компонентов
+
+Effect Hooks
+- effect имеет множество значений. Effect - как загрязненный fiber, effect - как пользовательская функция с побочным эффектом, записанная в хук useEffect. Flags для загрязнения effect (effect.tag = HookHasEffect | HookPassive, effect.tag = HookHasEffect | HookLayout) и flags для загрязнения fiber - разные (fiber.flags = UpdateEffect | PassiveEffect, fiber.flags = UpdateEffect). 
+- fiber имеет отдельное свойство updateQueue, которое будет ссылаться ТОЛЬКО на список эффектов ихз хуков этого fiber
+![effects, updateQueue](/img/queue.png)
+- в процессе изучения useEffect встречаются составные flags (UpdateEffect | PassiveEffect). Предполагаем, что это позволяет во флаге Update различать подвиды этого update
+- в поле memoizedState хука useEffect кладётся текстовое описание пользовательского callback в объектном виде. 
+`
+const effect : Effect = {    
+    tag ,     // тип Layout или Passive
+    create ,  // user callback
+    destroy , // возвращаемый callback вызываемый перед следующим кадром
+    deps ,    // зависимости
+    next : ( null : any ) , // ссылка на следующий effect (который НЕ fiber)
+  } ;
+`
+- commitBeforeMutationEffects смотрит, есть ли useEffect. Если да, то только планирует асинхронную функцию для их обработки (scheduleCallback)
+- commitMutationEffects делает 2 вещи: строит реальный DOM, destroy callback useLayoutEffect
+- commitLayoutEffects вызывает callback useLayoutEffect, складывает useEffect в отдельные массивы pendingPassiveHookEffectsUnmount и pendingPassiveHookEffectsMount для обработки на следующей асинхронной функции
